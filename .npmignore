@@ -1,0 +1,8 @@
+coverage/
+node_modules/
+src/
+.babelrc
+.eslintrc
+.gitignore
+.travis.yml
+webpack.config.babel.js

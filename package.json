@@ -1,0 +1,56 @@
+{
+  "name": "redux-scalable",
+  "description": "A set of reducers, selectors, middlewares and action creators that allows managing a predictable, scalable and easy to use Redux state",
+  "version": "1.0.0-alpha.1",
+  "main": "./build/index.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p2kmgcl/redux-scalable"
+  },
+  "author": {
+    "name": "Pablo Molina",
+    "email": "contact@pablomolina.me",
+    "url": "http://pablomolina.me"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack && webpack -p --output-filename index.min.js",
+    "lint": "eslint src/",
+    "test": "jest --coverage",
+    "test:watch": "npm run test -- --watch"
+  },
+  "jest": {
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ]
+  },
+  "peerDependencies": {
+    "immutable": "^3.8.1",
+    "redux": "^3.6.0",
+    "redux-immutable": "^4.0.0",
+    "reselect": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.3.2",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "immutable": "^3.8.1",
+    "jest": "^19.0.2",
+    "redux": "^3.6.0",
+    "redux-immutable": "^4.0.0",
+    "reselect": "^3.0.0",
+    "semantic-release": "^6.3.2",
+    "sinon": "^2.1.0",
+    "webpack": "^2.3.3"
+  }
+}
