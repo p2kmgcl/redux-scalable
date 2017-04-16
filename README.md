@@ -64,14 +64,6 @@ Redux-environment libraries, so they are added as peer dependencies:
 > If you find this approach incorrect and/or know how to improve this library, feel free to open an
 > issue to suggest any change.
 
-> ES6 support, with the standard module importing, is also assumed. However, if you are not using
-> ES6 and do not want to add a compilation, you can use the provided `build/index.js` and
-> `build/index.min.js` files. This builds __do__ include `immutable` and `reselect`, as it is
-> needed.
-
-Although there is a global export inside `redux-scalable/index.js`. Individual exports can be used
-by importing files from `redux-scalable/src/**` files.
-
 ## Fast setup
 
 I strongly recommend reading the whole README __before__ starting with this library. Although this
