@@ -1,7 +1,7 @@
 {
   "name": "redux-scalable",
   "description": "A set of reducers, selectors, middlewares and action creators that allows managing a predictable, scalable and easy to use Redux state",
-  "version": "1.0.0-alpha.2",
+  "version": "0.0.0-development",
   "main": "./build/index.min.js",
   "repository": {
     "type": "git",
@@ -18,7 +18,8 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint src/",
     "test": "jest --coverage",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "jest": {
     "coverageReporters": [

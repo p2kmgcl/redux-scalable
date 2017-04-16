@@ -1,21 +1,16 @@
 language: node_js
-node_js:
-  - node
-  - 7
-  - 6
-  - 5
-notifications:
-  email: false
-sudo: false
-script:
-  - npm run lint
-  - npm run test
-  - npm run build
+cache:
+  directories:
+    - node_modules
 notifications:
   email:
     on_failure: change
+node_js:
+  - 6
+before_script:
+  - npm prune
 after_success:
   - npm run coveralls
   - rm -fr ./build
   - npm run build
-  - semantic-release pre && npm publish && semantic-release post
+  - npm run semantic-release
