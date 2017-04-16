@@ -1,7 +1,7 @@
 {
   "name": "redux-scalable",
   "description": "A set of reducers, selectors, middlewares and action creators that allows managing a predictable, scalable and easy to use Redux state",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "main": "./build/index.min.js",
   "repository": {
     "type": "git",
