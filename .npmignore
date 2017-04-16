@@ -5,4 +5,4 @@ src/
 .eslintrc
 .gitignore
 .travis.yml
-webpack.config.babel.js
+rollup.config.js
