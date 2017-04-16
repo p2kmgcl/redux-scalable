@@ -2,6 +2,7 @@
 
 [![Travis build status](http://img.shields.io/travis/p2kmgcl/redux-scalable/master.svg?style=flat-square)](https://travis-ci.org/p2kmgcl/redux-scalable)
 [![NPM version](http://img.shields.io/npm/v/redux-scalable.svg?style=flat-square)](https://www.npmjs.org/package/redux-scalable)
+[![Test Coverage](https://coveralls.io/repos/github/p2kmgcl/redux-scalable/badge.svg)](https://coveralls.io/r/p2kmgcl/redux-scalable)
 
 A set of reducers, selectors, middlewares and action creators that allows managing a predictable,
 scalable and easy to use Redux state.

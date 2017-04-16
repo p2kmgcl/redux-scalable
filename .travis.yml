@@ -11,7 +11,11 @@ script:
   - npm run lint
   - npm run test
   - npm run build
+notifications:
+  email:
+    on_failure: change
 after_success:
+  - npm run coveralls
   - rm -fr ./build
   - npm run build
   - semantic-release pre && npm publish && semantic-release post
