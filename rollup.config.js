@@ -3,6 +3,7 @@ export default {
   format: 'umd',
   moduleName: 'ReduxScalable',
   dest: 'build/index.js',
+  sourceMap: true,
   external: [
     'immutable',
     'reselect'
