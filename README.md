@@ -36,30 +36,21 @@ __Content index__:
 
 __API index__:
 
-- [makeActionCreator](#creating-actions)
-
-
-- [functionMiddleware](#functions-as-payloads)
-
-
-- [promiseMiddleware](#promises-as-payloads)
-- [loadingReducer](#promises-as-payloads)
-- [setLoadingStateKeyPath](#promises-as-payloads)
-- [makeSelectLoading](#promises-as-payloads)
-
-
-- [inject.makeFragment](#inject-action-fragments)
-- [inject.reducer](#inject-action-fragments)
-- [inject.makeSelect](#inject-action-fragments)
-- [inject.setKeyPath](#inject-action-fragments)
-
-
-- [entity.makeFragment](#entity-action-fragments)
-- [entity.reducer](#entity-action-fragments)
-- [entity.makeSelect](#entity-action-fragments)
-- [entity.setKeyPath](#entity-action-fragments)
-
-- [defineActionFragment](#creating-new-action-fragments)
+- [`makeActionCreator`](#creating-actions)
+- [`functionMiddleware`](#functions-as-payloads)
+- [`promiseMiddleware`](#promises-as-payloads)
+- [`loadingReducer`](#promises-as-payloads)
+- [`setLoadingStateKeyPath`](#promises-as-payloads)
+- [`makeSelectLoading`](#promises-as-payloads)
+- [`inject.makeFragment`](#inject-action-fragments)
+- [`inject.reducer`](#inject-action-fragments)
+- [`inject.makeSelect`](#inject-action-fragments)
+- [`inject.setKeyPath`](#inject-action-fragments)
+- [`entity.makeFragment`](#entity-action-fragments)
+- [`entity.reducer`](#entity-action-fragments)
+- [`entity.makeSelect`](#entity-action-fragments)
+- [`entity.setKeyPath`](#entity-action-fragments)
+- [`defineActionFragment`](#creating-new-action-fragments)
 
 ## Assumptions
 
