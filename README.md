@@ -17,8 +17,8 @@ scalable and easy to use Redux state.
 
 __Needed for 1.0.0__:
 
-- [ ] Set a _standard_ documentation method (flow, typescript, jsdocs...)
-- [ ] Test semantic versioning publications
+- [x] Set a _standard_ documentation method (flow, typescript, jsdocs...)
+- [x] Test semantic versioning publications
 - [ ] Test library usage in production
 - [ ] Complete _defining new fragment creators_ documentation
 

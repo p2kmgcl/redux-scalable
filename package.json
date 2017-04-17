@@ -3,6 +3,10 @@
   "description": "A set of reducers, selectors, middlewares and action creators that allows managing a predictable, scalable and easy to use Redux state",
   "version": "0.0.0-development",
   "main": "./build/index.js",
+  "browser": "./build/index.js",
+  "module": "./build/index.js",
+  "jsnext:main": "./build/index.js",
+  "typings": "./src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/p2kmgcl/redux-scalable"
