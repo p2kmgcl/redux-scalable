@@ -1,6 +1,7 @@
 coverage/
 node_modules/
-src/
+src/*.js
+src/__tests__/*.js
 .babelrc
 .eslintrc
 .gitignore
