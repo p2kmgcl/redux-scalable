@@ -15,7 +15,7 @@ scalable and easy to use Redux state.
 > and/or data fetching. This means that __if you are trying to build a redux counter, maybe this
 > project goes too far__.
 
-__Needed for 1.0.0__:
+__Warning! This library is on alpha state. Needed for 1.0.0__:
 
 - [x] Set a _standard_ documentation method (flow, typescript, jsdocs...)
 - [x] Test semantic versioning publications
