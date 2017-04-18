@@ -19,6 +19,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup --config",
+    "postbuild": "uglifyjs --compress --mangle -- build/index.js > build/index.min.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint src/",
     "test": "jest --coverage",
@@ -54,7 +55,9 @@
     "redux-immutable": "^4.0.0",
     "reselect": "^3.0.0",
     "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
     "semantic-release": "^6.3.2",
-    "sinon": "^2.1.0"
+    "sinon": "^2.1.0",
+    "uglify-js": "^2.8.22"
   }
 }
