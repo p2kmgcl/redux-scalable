@@ -21,6 +21,10 @@ __Warning! This library is on alpha state. Needed for 1.0.0__:
 - [x] Test semantic versioning publications
 - [ ] Test library usage in production
 - [ ] Complete _defining new fragment creators_ documentation
+- [ ] Complete index.d.ts process
+- [ ] Think about a shortcut for `makeSelector() ==> .toJS()` process
+- [ ] Deprecate usage of `Symbol` and generate unique strings,
+      it seems that redux does not like them
 
 __Content index__:
 
