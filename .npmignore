@@ -6,4 +6,4 @@ src/__tests__/*.js
 .eslintrc
 .gitignore
 .travis.yml
-rollup.config.js
+webpack.config.js
