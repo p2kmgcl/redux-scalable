@@ -25,6 +25,8 @@ __Warning! This library is on alpha state. Needed for 1.0.0__:
 - [ ] Think about a shortcut for `makeSelector() ==> .toJS()` process
 - [ ] Deprecate usage of `Symbol` and generate unique strings,
       it seems that redux does not like them
+- [ ] If rejected promises receive an `Error` object it must be parsed and transformed into
+      a valid plain JS object with the error properties
 
 __Content index__:
 
