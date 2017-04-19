@@ -128,6 +128,7 @@ function setLoadingStateKeyPath(keyPath: string[]|null): void
 function makeSelectLoading(actionType: string): Selector<any, boolean>
 
 /**
+ * @type Symbol
  * Constant that represents a promise action whose promise is being loaded.
  * It will be present inside `meta.promiseStatus`
  */
@@ -135,6 +136,7 @@ interface PROMISE_LOADING_STATUS extends Symbol {
 }
 
 /**
+ * @type Symbol
  * Constant that represents a promise action whose promise has been resolved.
  * It will be present inside `meta.promiseStatus`
  */
@@ -142,20 +144,34 @@ interface PROMISE_SUCCESS_STATUS extends Symbol {
 }
 
 /**
+ * @type Symbol
  * Constant that represents a promise action whose promise has been rejected.
  * It will be present inside `meta.promiseStatus`
  */
 interface PROMISE_ERROR_STATUS extends Symbol {
 }
 
-// Inject ------------------------------------------------------------------------------------------
-
+// TODO Not exported, but documentation needed
 interface InjectActionFragment extends ActionFragment {
   type: 'inject',
   keyPath: string[],
   value: any
 }
 
+/**
+ * @type object
+ * Frozen object that represents the interface of the "inject" fragment type (@see
+ * defineActionFragment for more information, this documentation describes the functionality
+ * of this concrete interface).
+ *
+ * @prop {string} inject Constant representing the fragment type
+ * @prop {ImmutableMap} initialState Initial state of the redux store
+ * @prop {function} makeFragment Function for generating new fragments
+ * @prop {function} reducer Reducer to be injected to the store
+ * @prop {function} makeSelect Function that produces selectors
+ * @prop {function} setKeyPath Function that modifies the scope of the generated selectors. Keep
+ *   it in sync with the injected reducer.
+ */
 interface inject extends ActionFragmentCreator {
   type: 'inject',
   initialState: ImmutableMap,
@@ -164,12 +180,12 @@ interface inject extends ActionFragmentCreator {
   makeSelect: (keyPath: string[]|Selector<any, string[]>, defaultValue: any) => Selector<any, any>
 }
 
-// Entity ------------------------------------------------------------------------------------------
-
+// TODO Not exported, but documentation needed
 interface EntityElement {
   id: any
 }
 
+// TODO Not exported, but documentation needed
 interface EntityActionFragment extends ActionFragment {
   type: 'entity',
   name: string,
@@ -178,6 +194,20 @@ interface EntityActionFragment extends ActionFragment {
   group: string
 }
 
+/**
+ * @type object
+ * Frozen object that represents the interface of the "inject" fragment type (@see
+ * defineActionFragment for more information, this documentation describes the functionality
+ * of this concrete interface).
+ *
+ * @prop {string} inject Constant representing the fragment type
+ * @prop {ImmutableMap} initialState Initial state of the redux store
+ * @prop {function} makeFragment Function for generating new fragments
+ * @prop {function} reducer Reducer to be injected to the store
+ * @prop {function} makeSelect Function that produces selectors
+ * @prop {function} setKeyPath Function that modifies the scope of the generated selectors.
+ *   Keep it in sync with the injected reducer.
+ */
 interface entity extends ActionFragmentCreator {
   type: 'entity',
   initialState: ImmutableMap,
@@ -202,20 +232,21 @@ interface entity extends ActionFragmentCreator {
   ) => Selector<any, EntityElement[]>
 }
 
-// Define action fragment --------------------------------------------------------------------------
-
+// TODO Not exported, but documentation needed
 interface ActionFragment {
   type: string
 }
 
+// TODO Not exported, but documentation needed
 interface ActionWithFragments extends Action {
   payload: {
     fragments: ActionFragment[]
   }
 }
 
-function makeFragment(...args:any[]): ActionFragment
-
+/**
+ * TODO finish documentation
+ */
 interface ActionFragmentCreator {
   type: string,
   initialState: any,
@@ -225,6 +256,9 @@ interface ActionFragmentCreator {
   setKeyPath: (keyPath: string[]|null) => void
 }
 
+/**
+ * TODO finish documentation
+ */
 interface ActionFragmentCreatorDefinition {
   type: string,
   initialState: any,
@@ -233,9 +267,19 @@ interface ActionFragmentCreatorDefinition {
   selector: Selector<any, any>,
 }
 
-function defineActionFragment(ActionFragmentCreatorDefinition): ActionFragmentCreator
-
-// Export ------------------------------------------------------------------------------------------
+/**
+ * Function that produces a new ActionFragmentCreator (as the default ones provided by the
+ * library). The intention of this function is being internally used, but this exports enables
+ * the possibility of extending it's functionality on a project.
+ *
+ * @param {ActionFragmentCreatorDefinition} actionFragmentCreatorDefinition Definition of
+ *  the fragment creator that will be generated. @see ActionFragmentCreatorDefinition
+ *  and ActionFragmentCreator documentation for more information about it's usage.
+ * @return {ActionFragmentCreator}
+ */
+function defineActionFragment(
+  actionFragmentCreatorDefinition: ActionFragmentCreatorDefinition
+): ActionFragmentCreator
 
 export {
   makeActionCreator,
