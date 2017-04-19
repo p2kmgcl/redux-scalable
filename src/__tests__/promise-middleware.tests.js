@@ -79,6 +79,30 @@ describe('promise-middleware', () => {
       expect(store.getState().toJS().dummy).toEqual(loadingExpected)
       wait(() => expect(store.getState().toJS().dummy).toEqual(errorExpected), done)
     })
+
+    it('processes error objects and stores their information', (done) => {
+      const error = new TypeError('You are not my type, baby')
+      const action = {type: 'nice', payload: rejectWithValue(error)}
+      const loadingExpected = {
+        type: 'nice',
+        meta: {promiseStatus: PROMISE_LOADING_STATUS},
+        payload: null
+      }
+      const errorExpected = {
+        type: 'nice',
+        meta: {promiseStatus: PROMISE_ERROR_STATUS},
+        payload: {
+          name: 'TypeError',
+          message: 'You are not my type, baby',
+          stack: error.stack // Do not expect me to write the full stack here :3
+                             // Moreover, this property is not standard, so it may be
+                             // undefined or an empty string, or whatever...
+        }
+      }
+      store.dispatch(action)
+      expect(store.getState().toJS().dummy).toEqual(loadingExpected)
+      wait(() => expect(store.getState().toJS().dummy).toEqual(errorExpected), done)
+    })
   })
 
   describe('loadingReducer()', () => {

@@ -23,13 +23,24 @@ const promiseMiddleware = (store) => (next) => (action) => {
         }, action.meta || {}),
         payload: value
       }),
-      (value) => next({
-        type: action.type,
-        meta: Object.assign({
-          promiseStatus: PROMISE_ERROR_STATUS
-        }, action.meta || {}),
-        payload: value
-      })
+      (value) => {
+        let parsedValue = value
+        if (value instanceof Error) {
+          parsedValue = {
+            name: parsedValue.name,
+            message: parsedValue.message,
+            stack: parsedValue.stack
+          }
+        }
+
+        next({
+          type: action.type,
+          meta: Object.assign({
+            promiseStatus: PROMISE_ERROR_STATUS
+          }, action.meta || {}),
+          payload: parsedValue
+        })
+      }
     )
 
     return next(loadingAction)

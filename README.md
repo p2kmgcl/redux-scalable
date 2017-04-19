@@ -19,13 +19,13 @@ __Warning! This library is on alpha state. Needed for 1.0.0__:
 
 - [x] Set a _standard_ documentation method (flow, typescript, jsdocs...)
 - [x] Test semantic versioning publications
-- [ ] Test library usage in production
+- [x] Test library usage in production
 - [ ] Complete _defining new fragment creators_ documentation
 - [ ] Complete index.d.ts process
 - [ ] Think about a shortcut for `makeSelector() ==> .toJS()` process
 - [x] Deprecate usage of `Symbol` and generate unique strings,
       it seems that redux does not like them
-- [ ] If rejected promises receive an `Error` object it must be parsed and transformed into
+- [x] If rejected promises receive an `Error` object it must be parsed and transformed into
       a valid plain JS object with the error properties
 
 __Content index__:
