@@ -23,6 +23,8 @@ __Warning! This library is on alpha state. Needed for 1.0.0__:
 - [ ] Complete _defining new fragment creators_ documentation
 - [ ] Complete index.d.ts process
 - [ ] Think about a shortcut for `makeSelector() ==> .toJS()` process
+- [ ] Reduce the versions of Immutable, Redux, Reselect and Redux-Immutable, so it can be used
+      with older versions.
 - [x] Deprecate usage of `Symbol` and generate unique strings,
       it seems that redux does not like them
 - [x] If rejected promises receive an `Error` object it must be parsed and transformed into
@@ -40,23 +42,11 @@ __Content index__:
   - [Inject action fragments](#inject-action-fragments)
 - [Creating new action fragments](#creating-new-action-fragments)
 
-__API index__:
+__API index__
 
-- [`makeActionCreator`](#creating-actions)
-- [`functionMiddleware`](#functions-as-payloads)
-- [`promiseMiddleware`](#promises-as-payloads)
-- [`loadingReducer`](#promises-as-payloads)
-- [`setLoadingStateKeyPath`](#promises-as-payloads)
-- [`makeSelectLoading`](#promises-as-payloads)
-- [`inject.makeFragment`](#inject-action-fragments)
-- [`inject.reducer`](#inject-action-fragments)
-- [`inject.makeSelect`](#inject-action-fragments)
-- [`inject.setKeyPath`](#inject-action-fragments)
-- [`entity.makeFragment`](#entity-action-fragments)
-- [`entity.reducer`](#entity-action-fragments)
-- [`entity.makeSelect`](#entity-action-fragments)
-- [`entity.setKeyPath`](#entity-action-fragments)
-- [`defineActionFragment`](#creating-new-action-fragments)
+For information about the API check [the index.d.ts file](./src/index.d.ts), which keeps all the
+typing and the updated docs. Note that you do not need Typescript for using the library, this
+files can be read and processed by many editors.
 
 ## Assumptions
 
@@ -65,18 +55,31 @@ Redux-environment libraries, so they are added as peer dependencies:
 
 - [Redux](http://redux.js.org/) (awesome, I know)
 - [Immutable](https://facebook.github.io/immutable-js/) for efficient state managing
+- [Redux-Immutable](https://github.com/gajus/redux-immutable) for managing the redux state as an
+  immutable map
 - [Reselect](https://github.com/reactjs/reselect) for cache state observation
 
 > If you find this approach incorrect and/or know how to improve this library, feel free to open an
 > issue to suggest any change.
 
-## Fast setup
+## Usage
 
 I strongly recommend reading the whole README __before__ starting with this library. Although this
 setup just shows which middlewares, reducers, actions and selectors are available, just importing
 all the files maybe confusing.
 
-### 1. Inject middlewares and reducers when creating your store
+### Install redux-scalable and it's peer-dependencies
+
+```
+npm install --save \
+  redux-scalable \
+  redux@^3.6.0 \
+  reselect@^3.0.0 \
+  immutable@^3.8.1 \
+  redux-immutable@^3.6.0
+```
+
+### Inject middlewares and reducers when creating your store
 
 ```js
 import { createStore, applyMiddleware } from 'redux'
@@ -109,7 +112,7 @@ createStore(
 )
 ```
 
-### 2. Create and dispatch actions from anywhere
+### Create and dispatch actions from anywhere
 
 ```js
 import {
@@ -134,7 +137,7 @@ const getPaginatedStuff = makeActionCreator('get-paginated-stuff', {}, async (pa
 }))
 ```
 
-### 3. Get state information using selectors
+### Get state information using selectors
 
 ```js
 import { createSelector, createStructuredSelector } from 'reselect'
