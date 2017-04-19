@@ -1,4 +1,4 @@
-import {Map as ImmutableMap} from 'immutable'
+import {Map as ImmutableMap, List as ImmutableList} from 'immutable'
 import {Selector} from 'reselect'
 import {Action, ActionCreator, Middleware} from 'redux'
 
@@ -46,23 +46,105 @@ function makeActionCreator(
 interface functionMiddleware extends Middleware {
 }
 
-// Promise middleware ------------------------------------------------------------------------------
-
+/**
+ * @type function
+ * Redux Middleware that allows processing action's payloads as promises by resolving/rejecting
+ * them before being sent to the store. When a promise payload is received by this middleware, it
+ * sends an action to the store with the following shape:
+ *
+ * ```
+ *   {
+ *     type,
+ *     meta: { promiseStatus: PROMISE_STATUS_LOADING, ...},
+ *     payload: null
+ *   }
+ * ```
+ *
+ * This "loading" action indicates that an action of the given type has a promise, and the mentioned
+ * promise is on loading state. With this behaviour, the loading reducer (if being used, @see
+ * loadingReducer) will store this state. The null payload represents that no information is
+ * available yet.
+ *
+ * Then, the promise must be resolved or rejected (otherwise the middleware will be waiting forever)
+ * , and the middleware produces a second action dispatched to the store:
+ *
+ * ```
+ *   {
+ *     type,
+ *     meta: { promiseStatus: PROMISE_STATUS_SUCCESS/PROMISE_STATUS_ERROR, ...},
+ *     payload: [resolved or rejected payload]
+ *   }
+ * ```
+ *
+ * This action is taken by the loading reducer (if being used), and unchecks the action being
+ * loaded.
+ *
+ * For using this middleware just inject it to redux using the `applyMiddleware` function provided
+ * by them.
+ */
 interface promiseMiddleware extends Middleware {
 }
 
+/**
+ * @type function
+ * This reducer will process actions that have a `meta.promiseStatus` property and produces an
+ * array of the actions being loaded (pending promises), each element of the array is the action
+ * type being loaded, and if two actions of the same type are dispatched, two equal elements will
+ * appear in the array:
+ *
+ * - If the `meta.promiseStatus` equals to the PROMISE_STATUS_LOADING constant, the action type
+ *   is appened to the state.
+ * - If the `meta.promiseStatus` is either PROMISE_STATUS_SUCCESS or PROMISE_STATUS_ERROR, the
+ *   action type (if existing) is removed from the state. Only one element is removed at a time.
+ * - If the action dispatched has no `meta` property, has no `meta.promiseStatus` property, or
+ *   it's `meta.promiseStatus` property has a different value, the action is ignored.
+ *
+ * @param {ImmutableList} [state=new ImmutableList] List of actions being loaded.
+ * @param {object} action Action being processed as described before.
+ * @return {ImmutableList}
+ */
 function loadingReducer(state: any, action: Action): any
 
+/**
+ * @type function
+ * Function that sets where the loading selector maker (@see makeSelectLoading) will operate
+ * inside the state. if null or an empty array is passed, it will check the root state as base.
+ *
+ * @param {string[]|null} [keyPath=null]
+ */
 function setLoadingStateKeyPath(keyPath: string[]|null): void
 
+/**
+ * @type function
+ * Produces a selector that will check if a given action (by type) is being loaded. It uses the
+ * specified keyPath as state root (@see setLoadingStateKeyPath) and checks if it is a list of
+ * elements. Then it looks for the given string, and returns true if it is present. If any of
+ * these conditions is not met, the created selector will return false.
+ *
+ * @param {string} actionType Action type that will be checked by the produced selector
+ * @return {Selector<*, boolean>} A selector that when executed, will return true if an
+ *   action with `actionType` is being loaded, or false otherwise.
+ */
 function makeSelectLoading(actionType: string): Selector<any, boolean>
 
+/**
+ * Constant that represents a promise action whose promise is being loaded.
+ * It will be present inside `meta.promiseStatus`
+ */
 interface PROMISE_LOADING_STATUS extends Symbol {
 }
 
+/**
+ * Constant that represents a promise action whose promise has been resolved.
+ * It will be present inside `meta.promiseStatus`
+ */
 interface PROMISE_SUCCESS_STATUS extends Symbol {
 }
 
+/**
+ * Constant that represents a promise action whose promise has been rejected.
+ * It will be present inside `meta.promiseStatus`
+ */
 interface PROMISE_ERROR_STATUS extends Symbol {
 }
 
