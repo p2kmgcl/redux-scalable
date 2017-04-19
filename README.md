@@ -23,7 +23,7 @@ __Warning! This library is on alpha state. Needed for 1.0.0__:
 - [ ] Complete _defining new fragment creators_ documentation
 - [ ] Complete index.d.ts process
 - [ ] Think about a shortcut for `makeSelector() ==> .toJS()` process
-- [ ] Deprecate usage of `Symbol` and generate unique strings,
+- [x] Deprecate usage of `Symbol` and generate unique strings,
       it seems that redux does not like them
 - [ ] If rejected promises receive an `Error` object it must be parsed and transformed into
       a valid plain JS object with the error properties
@@ -209,14 +209,15 @@ __1. The promise is created__
 A load action is dispatched, storing inside the redux state the following information:
 
 - The string `/load` is appended to the action type
-- The meta property of the action receives a new property `status`, being `LOADING_STATUS` the value
-  of this property. This value is a symbol which can be imported as `PROMISE_LOADING_STATUS`
+- The meta property of the action receives a new property `promiseStatus`,
+  being `LOADING_STATUS` the value of this property. This value is a unique string which can be
+  imported as `PROMISE_LOADING_STATUS`
 - The payloads becomes null, indicating that the content of the action is still not available
 
 ```js
 const loadAction = {
   type: '[DEFINED_ACTION_TYPE]/load',
-  meta: { status: 'LOADING_STATUS' /* [...action meta] */ },
+  meta: { promiseStatus: 'LOADING_STATUS' /* [...action meta] */ },
   payload: null
 }
 ```
@@ -231,19 +232,19 @@ If the promise is resolved, a new action with the following shape is dispatched:
 ```js
 const successAction = {
   type: '[DEFINED_ACTION_TYPE]/success',
-  meta: { status: 'SUCCESS_STATUS' /* [...action meta] */ },
+  meta: { promiseStatus: 'SUCCESS_STATUS' /* [...action meta] */ },
   payload: '[resolved value]'
 }
 ```
 
 __2b. The promise is rejected__
 
-If the promise is resolved, a new action with the following shape is dispatched:
+If the promise is rejected, a new action with the following shape is dispatched:
 
 ```js
 const errorAction = {
   type: '[DEFINED_ACTION_TYPE]/success',
-  meta: { status: 'ERROR_STATUS' /* [...action meta] */ },
+  meta: { promiseStatus: 'ERROR_STATUS' /* [...action meta] */ },
   payload: '[rejected value (normally an error object)]'
 }
 ```
@@ -252,7 +253,9 @@ const errorAction = {
 >
 > Now that promises can be used as actions, we should have a way of extracting the status of our
 > actions from the application state. Although you can implement your own process for getting each
-> status, `redux-scalable` provides both
+> status, `redux-scalable` provides a reducer and a selector for managing the behaviour
+
+TODO document or refer reducer and selector
 
 ## Action fragments
 
@@ -336,10 +339,10 @@ getPosts(store.getState()) // [{id: 1, content: 'awesome', stars: 12}]
 ```
 
 Cool, right? There is a single condition, and it is that every element in the store must have
-an unique id that must be a standard js type (string, number, Symbol...). This attribute will be
+an unique id that must be a standard js type (string, number...). This attribute will be
 used for identifying elements inside the store, so feel free to pass in your database id or
 generating a new id for redux.
 
 ## Creating new action fragments
 
-TODO
+TODO refer defineActionFragment

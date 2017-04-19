@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable'
 
-const PROMISE_LOADING_STATUS = Symbol('PROMISE_LOADING_STATUS')
-const PROMISE_SUCCESS_STATUS = Symbol('PROMISE_SUCCESS_STATUS')
-const PROMISE_ERROR_STATUS = Symbol('PROMISE_ERROR_STATUS')
+const PROMISE_LOADING_STATUS = 'redux-scalable/promise-middleware/PROMISE_LOADING_STATUS'
+const PROMISE_SUCCESS_STATUS = 'redux-scalable/promise-middleware/PROMISE_SUCCESS_STATUS'
+const PROMISE_ERROR_STATUS = 'redux-scalable/promise-middleware/PROMISE_ERROR_STATUS'
 let loadingStateKeyPath = null
 
 const promiseMiddleware = (store) => (next) => (action) => {
@@ -10,7 +10,7 @@ const promiseMiddleware = (store) => (next) => (action) => {
     const loadingAction = {
       type: action.type,
       meta: Object.assign({
-        status: PROMISE_LOADING_STATUS
+        promiseStatus: PROMISE_LOADING_STATUS
       }, action.meta || {}),
       payload: null
     }
@@ -19,14 +19,14 @@ const promiseMiddleware = (store) => (next) => (action) => {
       (value) => next({
         type: action.type,
         meta: Object.assign({
-          status: PROMISE_SUCCESS_STATUS
+          promiseStatus: PROMISE_SUCCESS_STATUS
         }, action.meta || {}),
         payload: value
       }),
       (value) => next({
         type: action.type,
         meta: Object.assign({
-          status: PROMISE_ERROR_STATUS
+          promiseStatus: PROMISE_ERROR_STATUS
         }, action.meta || {}),
         payload: value
       })
@@ -40,8 +40,8 @@ const promiseMiddleware = (store) => (next) => (action) => {
 
 const loadingReducer = (state = fromJS([]), action) => {
   let nextState = state
-  if (action && action.meta && action.meta.status) {
-    switch (action.meta.status) {
+  if (action && action.meta && action.meta.promiseStatus) {
+    switch (action.meta.promiseStatus) {
       case PROMISE_LOADING_STATUS:
         nextState = nextState.push(action.type)
         break

@@ -128,27 +128,27 @@ function setLoadingStateKeyPath(keyPath: string[]|null): void
 function makeSelectLoading(actionType: string): Selector<any, boolean>
 
 /**
- * @type Symbol
+ * @type String
  * Constant that represents a promise action whose promise is being loaded.
  * It will be present inside `meta.promiseStatus`
  */
-interface PROMISE_LOADING_STATUS extends Symbol {
+interface PROMISE_LOADING_STATUS extends String {
 }
 
 /**
- * @type Symbol
+ * @type String
  * Constant that represents a promise action whose promise has been resolved.
  * It will be present inside `meta.promiseStatus`
  */
-interface PROMISE_SUCCESS_STATUS extends Symbol {
+interface PROMISE_SUCCESS_STATUS extends String {
 }
 
 /**
- * @type Symbol
+ * @type String
  * Constant that represents a promise action whose promise has been rejected.
  * It will be present inside `meta.promiseStatus`
  */
-interface PROMISE_ERROR_STATUS extends Symbol {
+interface PROMISE_ERROR_STATUS extends String {
 }
 
 // TODO Not exported, but documentation needed

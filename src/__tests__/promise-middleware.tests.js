@@ -46,12 +46,16 @@ describe('promise-middleware', () => {
       expect(store.getState().toJS().dummy).toEqual({type: 'nice'})
     })
 
-    it('sets payload as promise status description', (done) => {
+    it('sets payload and promise status description', (done) => {
       const action = {type: 'nice', payload: resolveWithValue('payload')}
-      const loadingExpected = {type: 'nice', meta: {status: PROMISE_LOADING_STATUS}, payload: null}
+      const loadingExpected = {
+        type: 'nice',
+        meta: {promiseStatus: PROMISE_LOADING_STATUS},
+        payload: null
+      }
       const successExpected = {
         type: 'nice',
-        meta: {status: PROMISE_SUCCESS_STATUS},
+        meta: {promiseStatus: PROMISE_SUCCESS_STATUS},
         payload: 'payload'
       }
       store.dispatch(action)
@@ -61,8 +65,16 @@ describe('promise-middleware', () => {
 
     it('allows rejecting promises', (done) => {
       const action = {type: 'nice', payload: rejectWithValue('payload')}
-      const loadingExpected = {type: 'nice', meta: {status: PROMISE_LOADING_STATUS}, payload: null}
-      const errorExpected = {type: 'nice', meta: {status: PROMISE_ERROR_STATUS}, payload: 'payload'}
+      const loadingExpected = {
+        type: 'nice',
+        meta: {promiseStatus: PROMISE_LOADING_STATUS},
+        payload: null
+      }
+      const errorExpected = {
+        type: 'nice',
+        meta: {promiseStatus: PROMISE_ERROR_STATUS},
+        payload: 'payload'
+      }
       store.dispatch(action)
       expect(store.getState().toJS().dummy).toEqual(loadingExpected)
       wait(() => expect(store.getState().toJS().dummy).toEqual(errorExpected), done)
