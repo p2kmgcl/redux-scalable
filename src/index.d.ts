@@ -151,7 +151,14 @@ interface PROMISE_SUCCESS_STATUS extends String {
 interface PROMISE_ERROR_STATUS extends String {
 }
 
-// TODO Not exported, but documentation needed
+/**
+ * Fragment that can be processed by an entity action fragment.
+ *
+ * @prop {string} [type='inject'] Fixed value which identifies the action fragment
+ * @prop {string[]} keyPath Place where the value will be injected.
+ * @prop {*} [value=undefined] Value to be stored. If no value is specified, the given path
+ *   will be deleted from the store.
+ */
 interface InjectActionFragment extends ActionFragment {
   type: 'inject',
   keyPath: string[],
@@ -180,12 +187,30 @@ interface inject extends ActionFragmentCreator {
   makeSelect: (keyPath: string[]|Selector<any, string[]>, defaultValue: any) => Selector<any, any>
 }
 
-// TODO Not exported, but documentation needed
+/**
+ * @type object
+ * Single element managed by the entity fragment reducers. It may have any shape, but an
+ * unique id property is needed for distinguish entities.
+ *
+ * @prop {*} id Property that identifies the entity
+ */
 interface EntityElement {
   id: any
 }
 
-// TODO Not exported, but documentation needed
+/**
+ * Fragment that can be processed by an entity action fragment. The only needed information
+ * is the fragment type, the entity name, and the list of elements (which can be empty).
+ *
+ * @prop {string} [type='entity'] Fixed value which identifies the action fragment
+ * @prop {string} name Name of the entity to be managed by this fragment
+ * @prop {EntityElement[]|null} elements List of elements to be added to the state. This elements
+ *   will be merged with the exiting ones, and the list of ids will be included in the given
+ *   page and group.
+ * @prop {number} [page=0] Page of elements to be stored (optional)
+ * @prop {string} [group='default'] Optional parameter that allows maintaining different groups
+ *   of elements with the same type (ex. popular and latest articles).
+ */
 interface EntityActionFragment extends ActionFragment {
   type: 'entity',
   name: string,
@@ -232,12 +257,19 @@ interface entity extends ActionFragmentCreator {
   ) => Selector<any, EntityElement[]>
 }
 
-// TODO Not exported, but documentation needed
+/**
+ * Fragment that can be processed by an action fragment processor. The only needed information
+ * is the fragment type, and the needed values by the processor.
+ *
+ * @prop {string} type Fixed value which identifies the action fragment.
+ */
 interface ActionFragment {
   type: string
 }
 
-// TODO Not exported, but documentation needed
+/**
+ * Action which contains a list of fragments.
+ */
 interface ActionWithFragments extends Action {
   payload: {
     fragments: ActionFragment[]
@@ -245,7 +277,16 @@ interface ActionWithFragments extends Action {
 }
 
 /**
- * TODO finish documentation
+ * @type object
+ * Frozen object that represents the interface of a fragment type.
+ *
+ * @prop {string} type Constant representing the fragment type
+ * @prop {*} initialState Initial state of the redux store
+ * @prop {function} makeFragment Function for generating new fragments
+ * @prop {function} reducer Reducer to be injected to the store
+ * @prop {function} makeSelect Function that produces selectors
+ * @prop {function} setKeyPath Function that modifies the scope of the generated selectors.
+ *   Keep it in sync with the injected reducer.
  */
 interface ActionFragmentCreator {
   type: string,
@@ -257,7 +298,15 @@ interface ActionFragmentCreator {
 }
 
 /**
- * TODO finish documentation
+ * @type object
+ * Object used for defining a new action fragment creator. Although this function is used
+ * internally, it can be reused for adding customized action fragments.
+ *
+ * @prop {string} type Constant representing the fragment type
+ * @prop {*} initialState Initial state of the redux store
+ * @prop {function} makeFragment Function for generating new fragments
+ * @prop {function} reducer Reducer to be injected to the store
+ * @prop {function} selector Selector used for the generated wrapped selectors
  */
 interface ActionFragmentCreatorDefinition {
   type: string,
