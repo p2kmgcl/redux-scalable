@@ -4,6 +4,7 @@
 [![NPM version](http://img.shields.io/npm/v/redux-scalable.svg)](https://www.npmjs.org/package/redux-scalable)
 [![Test Coverage](https://coveralls.io/repos/github/p2kmgcl/redux-scalable/badge.svg)](https://coveralls.io/r/p2kmgcl/redux-scalable)
 [![Dev dependencies](https://david-dm.org/p2kmgcl/redux-scalable/dev-status.svg)](https://david-dm.org/p2kmgcl/redux-scalable?type=dev)
+[![Peer dependencies](https://david-dm.org/p2kmgcl/redux-scalable/peer-status.svg)](https://david-dm.org/p2kmgcl/redux-scalable?type=peer)
 
 A set of reducers, selectors, middlewares and action creators that allows managing a predictable,
 scalable and easy to use Redux state.
