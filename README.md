@@ -21,10 +21,8 @@ __Warning! This library is on alpha state. Needed for 1.0.0__:
 - [x] Test semantic versioning publications
 - [x] Test library usage in production
 - [ ] Complete _defining new fragment creators_ documentation
-- [ ] Complete index.d.ts process
-- [ ] Think about a shortcut for `makeSelector() ==> .toJS()` process
-- [ ] Reduce the versions of Immutable, Redux, Reselect and Redux-Immutable, so it can be used
-      with older versions.
+- [x] Complete index.d.ts process
+- [ ] Remove Immutable and Redux-Immutable
 - [x] Deprecate usage of `Symbol` and generate unique strings,
       it seems that redux does not like them
 - [x] If rejected promises receive an `Error` object it must be parsed and transformed into
