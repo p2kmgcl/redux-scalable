@@ -34,8 +34,8 @@ describe('Real world usage sample', () => {
       text: Math.random().toString()
     })
 
-    inject.setKeyPath(['inject'])
-    entity.setKeyPath(['entity'])
+    inject.setKeyPath('inject')
+    entity.setKeyPath('entity')
 
     store = createStore(
       combineReducers({
@@ -59,15 +59,15 @@ describe('Real world usage sample', () => {
 
     setView = makeActionCreator('setPage', {}, (page = 0, group = 'timeline') => ({
       fragments: [
-        inject.makeFragment(['page'], page),
-        inject.makeFragment(['group'], group)
+        inject.makeFragment('page', page),
+        inject.makeFragment('group', group)
       ]
     }))
 
     selectTweets = entity.makeSelect(
       'Tweet',
-      inject.makeSelect(['page'], 0),
-      inject.makeSelect(['group'], 'timeline')
+      inject.makeSelect('page', 0),
+      inject.makeSelect('group', 'timeline')
     )
 
     getTweets = () => selectTweets(store.getState())

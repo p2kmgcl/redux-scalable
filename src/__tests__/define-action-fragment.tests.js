@@ -16,7 +16,7 @@ describe('define-action-fragment', () => {
         selector: (fragmentState, index) => fragmentState[index],
         makeFragment: (value) => ({ type: 'sample', value })
       })
-      fragment.setKeyPath(['sample'])
+      fragment.setKeyPath('sample')
       store = createStore(
         combineReducers({
           sample: fragment.reducer

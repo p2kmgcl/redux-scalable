@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 
 export default ({ type, initialState, makeFragment, reducer, selector }) => {
   let keyPath
-  let selectState
 
   const realReducer = (state = initialState, action) => {
     let nextState = state
@@ -34,11 +33,22 @@ export default ({ type, initialState, makeFragment, reducer, selector }) => {
   }
 
   const setKeyPath = (newKeyPath) => {
-    keyPath = newKeyPath instanceof Array && newKeyPath.length ? [].concat(newKeyPath) : []
-    selectState = (state) => keyPath.reduce((subState, keyPathItem) =>
-      (subState && typeof subState === 'object') ? subState[keyPathItem] : undefined
-    , state)
+    if (typeof newKeyPath === 'string') {
+      if (newKeyPath.length) {
+        keyPath = newKeyPath.split('.')
+      } else {
+        keyPath = []
+      }
+    } else if (newKeyPath instanceof Array) {
+      keyPath = newKeyPath.splice(0)
+    } else {
+      keyPath = []
+    }
   }
+
+  const selectState = (state) => keyPath.reduce((subState, keyPathItem) =>
+    (subState && typeof subState === 'object') ? subState[keyPathItem] : undefined
+  , state)
 
   setKeyPath()
 

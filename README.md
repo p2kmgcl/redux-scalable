@@ -1,8 +1,9 @@
 # redux-scalable
 
-[![Travis build status](http://img.shields.io/travis/p2kmgcl/redux-scalable/master.svg?style=flat-square)](https://travis-ci.org/p2kmgcl/redux-scalable)
-[![NPM version](http://img.shields.io/npm/v/redux-scalable.svg?style=flat-square)](https://www.npmjs.org/package/redux-scalable)
+[![Travis build status](http://img.shields.io/travis/p2kmgcl/redux-scalable/master.svg)](https://travis-ci.org/p2kmgcl/redux-scalable)
+[![NPM version](http://img.shields.io/npm/v/redux-scalable.svg)](https://www.npmjs.org/package/redux-scalable)
 [![Test Coverage](https://coveralls.io/repos/github/p2kmgcl/redux-scalable/badge.svg)](https://coveralls.io/r/p2kmgcl/redux-scalable)
+[![Dev dependencies](https://david-dm.org/p2kmgcl/redux-scalable/dev-status.svg)](https://david-dm.org/p2kmgcl/redux-scalable?type=dev)
 
 A set of reducers, selectors, middlewares and action creators that allows managing a predictable,
 scalable and easy to use Redux state.
@@ -15,20 +16,7 @@ scalable and easy to use Redux state.
 > and/or data fetching. This means that __if you are trying to build a redux counter, maybe this
 > project goes too far__.
 
-__Warning! This library is on alpha state. Needed for 1.0.0__:
-
-- [x] Set a _standard_ documentation method (flow, typescript, jsdocs...)
-- [x] Test semantic versioning publications
-- [x] Test library usage in production
-- [ ] Complete _defining new fragment creators_ documentation
-- [x] Complete index.d.ts process
-- [x] Remove Immutable and Redux-Immutable
-- [x] Deprecate usage of `Symbol` and generate unique strings,
-      it seems that redux does not like them
-- [x] If rejected promises receive an `Error` object it must be parsed and transformed into
-      a valid plain JS object with the error properties
-
-__Content index__:
+## Content index
 
 - [Assumptions](#assumptions)
 - [Fast setup](#fast-setup)
@@ -40,11 +28,9 @@ __Content index__:
   - [Inject action fragments](#inject-action-fragments)
 - [Creating new action fragments](#creating-new-action-fragments)
 
-__API index__
-
-For information about the API check [the index.d.ts file](./src/index.d.ts), which keeps all the
-typing and the updated docs. Note that you do not need Typescript for using the library, this
-files can be read and processed by many editors.
+> __For information about the API check [the index.d.ts file](./src/index.d.ts)__, which keeps all
+> the typing and the updated docs. Note that you do not need Typescript for using the library, this
+> files can be read and processed by many editors.
 
 ## Assumptions
 
@@ -85,9 +71,9 @@ import {
   entity,
 } from 'redux-scalable'
 
-setLoadingStateKeyPath(['loading'])
-inject.setKeyPath(['inject'])
-entity.setKeyPath(['entity'])
+setLoadingStateKeyPath('loading')
+inject.setKeyPath('inject')
+entity.setKeyPath('entity')
 
 createStore(
   combineReducers({
@@ -113,7 +99,7 @@ import {
 } from 'redux-scalable'
 
 const injectValue = makeActionCreator('inject-value', {}, (value) => ({
-  fragments: [inject.makeFragment(['value'], value)]
+  fragments: [inject.makeFragment('value', value)]
 }))
 
 const getStuff = makeActionCreator('get-stuff', {}, async () => ({
@@ -122,7 +108,7 @@ const getStuff = makeActionCreator('get-stuff', {}, async () => ({
 
 const getPaginatedStuff = makeActionCreator('get-paginated-stuff', {}, async (page) => ({
   fragments: [
-    inject.makeFragment(['PaginatedStuff', 'page'], page),
+    inject.makeFragment('PaginatedStuff.page', page),
     entity.makeFragment('PaginatedStuff', await fetch(`/my/stuff/location/${page}`, page))
   ]
 }))
@@ -135,11 +121,11 @@ import { createSelector, createStructuredSelector } from 'reselect'
 import { inject, entity } from 'redux-scalable'
 
 const mySelector = createStructuredSelector({
-  value: inject.makeSelect(['value']),
+  value: inject.makeSelect('value'),
   stuff: entity.makeSelect('Stuff'),
   paginatedStuff: entity.makeSelect(
     'PaginatedStuff',
-    inject.makeSelect(['PaginatedStuff', 'page'])
+    inject.makeSelect('PaginatedStuff.page')
   )
 })
 ```
@@ -307,9 +293,9 @@ It's simple, but it also has some cool merging objects functionality. Usage:
 
 ```js
 const setSecretValue = makeActionCreator('setSecretValue', {}, (value) => ({
-  fragments: [inject.makeFragment(['super', 'secret', 'path'], value)]
+  fragments: [inject.makeFragment('super.secret.path', value)]
 }))
-const selectSuperSecretValue = inject.makeSelect(['super', 'secret', 'path'], ':(')
+const selectSuperSecretValue = inject.makeSelect('super.secret.path', ':(')
 store.dispatch(setSecretValue('1234'))
 selectSuperSecretValue(store.getState()) // '1234'
 ```
@@ -338,4 +324,7 @@ generating a new id for redux.
 
 ## Creating new action fragments
 
-TODO refer defineActionFragment
+In order to define action each fragment, `redux-scalable` uses an internal function called
+`defineActionFragment`, which provides the necesary reducer, selector, and action creator. You can
+extend `redux-scalable` inside your application by defining new action fragments. See the API index
+in order to use this functionality

@@ -1,7 +1,7 @@
 {
   "name": "redux-scalable",
   "description": "A set of reducers, selectors, middlewares and action creators that allows managing a predictable, scalable and easy to use Redux state",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "./build/index.js",
   "browser": "./build/index.js",
   "module": "./build/index.js",

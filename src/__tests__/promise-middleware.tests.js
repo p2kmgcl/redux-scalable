@@ -131,7 +131,7 @@ describe('promise-middleware', () => {
       store.dispatch(action)
       setLoadingStateKeyPath(null)
       expect(selector(store.getState())).toBe(false)
-      setLoadingStateKeyPath(['loading'])
+      setLoadingStateKeyPath('loading')
       expect(selector(store.getState())).toBe(true)
       expect(unexsistingSelector(store.getState())).toBe(false)
       wait(() => expect(selector(store.getState())).toBe(false), done)

@@ -21,14 +21,14 @@ describe('inject-action-fragment', () => {
   it('sets values to the given keyPath', () => {
     const actionA = {
       type: 'actionA',
-      payload: {fragments: [inject.makeFragment(['value'], 10)]}
+      payload: {fragments: [inject.makeFragment('value', 10)]}
     }
     const actionB = {
       type: 'actionB',
-      payload: {fragments: [inject.makeFragment(['deep', 'value'], 13)]}
+      payload: {fragments: [inject.makeFragment('deep.value', 13)]}
     }
-    const selectValue = inject.makeSelect(['value'])
-    const selectDeepValue = inject.makeSelect(['deep', 'value'])
+    const selectValue = inject.makeSelect('value')
+    const selectDeepValue = inject.makeSelect('deep.value')
     store.dispatch(actionA)
     store.dispatch(actionB)
     const state = store.getState()
@@ -38,11 +38,11 @@ describe('inject-action-fragment', () => {
 
   it('allows modifying the base keyPath', () => {
     store = createStore(combineReducers({ custom: inject.reducer }))
-    inject.setKeyPath(['custom'])
+    inject.setKeyPath('custom')
     const action = {
       type: 'action',
       payload: {
-        fragments: [inject.makeFragment(['value'], 3)]
+        fragments: [inject.makeFragment('value', 3)]
       }
     }
     store.dispatch(action)
@@ -50,7 +50,7 @@ describe('inject-action-fragment', () => {
   })
 
   it('gets the given default value', () => {
-    const selectDefault = inject.makeSelect(['unexisting', 'path'], 'default')
+    const selectDefault = inject.makeSelect('unexisting.path', 'default')
     expect(selectDefault(store.getState())).toEqual('default')
   })
 })

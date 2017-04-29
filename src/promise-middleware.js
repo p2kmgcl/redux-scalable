@@ -61,7 +61,13 @@ const loadingReducer = (state = [], action) => {
 }
 
 const setLoadingStateKeyPath = (keyPath) => {
-  if (keyPath instanceof Array && keyPath.length) {
+  if (typeof keyPath === 'string') {
+    if (keyPath.length) {
+      loadingStateKeyPath = keyPath.split('.')
+    } else {
+      loadingStateKeyPath = []
+    }
+  } else if (keyPath instanceof Array) {
     loadingStateKeyPath = keyPath.splice(0)
   } else {
     loadingStateKeyPath = []

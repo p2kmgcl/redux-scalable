@@ -5,7 +5,7 @@ export default defineActionFragment({
   initialState: {},
   makeFragment: (keyPath, value) => ({ type: 'inject', keyPath, value }),
   reducer: (state, action, { keyPath, value }) => {
-    const keyPathClone = keyPath.splice(0)
+    const keyPathClone = keyPath.split('.')
     const nextState = Object.assign({}, state)
     const lastKeyPathItem = keyPathClone.pop()
 
@@ -23,7 +23,7 @@ export default defineActionFragment({
     return nextState
   },
   selector: (state = {}, keyPath, defaultValue) =>
-    keyPath.reduce((subState, keyPathItem) => (
+    keyPath.split('.').reduce((subState, keyPathItem) => (
       subState &&
       typeof subState === 'object' &&
       typeof subState[keyPathItem] !== 'undefined'

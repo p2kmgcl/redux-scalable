@@ -109,9 +109,9 @@ function loadingReducer(state: any, action: Action): any
  * Function that sets where the loading selector maker (@see makeSelectLoading) will operate
  * inside the state. if null or an empty array is passed, it will check the root state as base.
  *
- * @param {string[]|null} [keyPath=null]
+ * @param {string|null} [keyPath=null]
  */
-function setLoadingStateKeyPath(keyPath: string[]|null): void
+function setLoadingStateKeyPath(keyPath: string|null): void
 
 /**
  * @type function
@@ -154,13 +154,13 @@ interface PROMISE_ERROR_STATUS extends String {
  * Fragment that can be processed by an entity action fragment.
  *
  * @prop {string} [type='inject'] Fixed value which identifies the action fragment
- * @prop {string[]} keyPath Place where the value will be injected.
+ * @prop {string} keyPath Place where the value will be injected.
  * @prop {*} [value=undefined] Value to be stored. If no value is specified, the given path
  *   will be deleted from the store.
  */
 interface InjectActionFragment extends ActionFragment {
   type: 'inject',
-  keyPath: string[],
+  keyPath: string,
   value: any
 }
 
@@ -181,9 +181,9 @@ interface InjectActionFragment extends ActionFragment {
 interface inject extends ActionFragmentCreator {
   type: 'inject',
   initialState: {},
-  makeFragment: (keyPath: string[], value: any) => InjectActionFragment,
+  makeFragment: (keyPath: string, value: any) => InjectActionFragment,
   reducer: (state: any, action: ActionWithFragments, fragment: InjectActionFragment) => any,
-  makeSelect: (keyPath: string[]|Selector<any, string[]>, defaultValue: any) => Selector<any, any>
+  makeSelect: (keyPath: string|Selector<any, string>, defaultValue: any) => Selector<any, any>
 }
 
 /**
@@ -293,7 +293,7 @@ interface ActionFragmentCreator {
   makeFragment: (...args:any[]) => ActionFragment,
   reducer: (state: any, action: ActionWithFragments, fragment: ActionFragment) => any,
   makeSelect: (...args:any[]) => Selector<any, any>,
-  setKeyPath: (keyPath: string[]|null) => void
+  setKeyPath: (keyPath: string|null) => void
 }
 
 /**
