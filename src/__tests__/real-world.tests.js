@@ -1,7 +1,6 @@
 /* global describe, beforeEach, it, expect */
 
-import { combineReducers } from 'redux-immutable'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import {
   functionMiddleware,
   promiseMiddleware,
@@ -71,7 +70,7 @@ describe('Real world usage sample', () => {
       inject.makeSelect(['group'], 'timeline')
     )
 
-    getTweets = () => selectTweets(store.getState()).toJS()
+    getTweets = () => selectTweets(store.getState())
   })
 
   it('has no tweets at the beginning', () => {
@@ -82,12 +81,12 @@ describe('Real world usage sample', () => {
     const tweet = makeTweet()
     store.dispatch(setView(0, 'timeline'))
     store.dispatch(addRandomTweet(tweet, 0, 'timeline'))
-    expect(store.getState().toJS()).toEqual({
+    expect(store.getState()).toEqual({
       loading: ['addRandomTweet'],
       inject: { page: 0, group: 'timeline' },
       entity: {}
     })
-    wait(() => expect(store.getState().toJS()).toEqual({
+    wait(() => expect(store.getState()).toEqual({
       loading: [],
       inject: { page: 0, group: 'timeline' },
       entity: {
@@ -104,18 +103,21 @@ describe('Real world usage sample', () => {
     const favouriteTweet = makeTweet()
     store.dispatch(addRandomTweet(simpleTweet, 0, 'timeline'))
     store.dispatch(addRandomTweet(favouriteTweet, 1, 'favourite'))
-    expect(store.getState().toJS()).toEqual({
+    expect(store.getState()).toEqual({
       loading: ['addRandomTweet', 'addRandomTweet'],
       inject: {},
       entity: {}
     })
     wait(() => {
-      expect(store.getState().toJS()).toEqual({
+      expect(store.getState()).toEqual({
         loading: [],
         inject: {},
         entity: {
           Tweet: {
-            groups: {timeline: [[simpleTweet.id]], favourite: [undefined, [favouriteTweet.id]]},
+            groups: {
+              timeline: [[simpleTweet.id]],
+              favourite: [undefined, [favouriteTweet.id]]
+            },
             elements: [simpleTweet, favouriteTweet]
           }
         }

@@ -27,7 +27,7 @@ describe('entity-action-fragment', () => {
     }
     store.dispatch(posts)
     store.dispatch(tweets)
-    expect(store.getState().toJS()).toEqual({
+    expect(store.getState()).toEqual({
       Post: {
         elements: [],
         groups: {
@@ -56,9 +56,9 @@ describe('entity-action-fragment', () => {
     const selectPageTwo = entity.makeSelect('Tweet', 1, 'timeline')
     store.dispatch(tweets)
     const state = store.getState()
-    expect(selectPosts(state).toJS()).toEqual([])
-    expect(selectPageOne(state).toJS()).toEqual([])
-    expect(selectPageTwo(state).toJS()).toEqual([{id: 1, text: 'hi!'}])
+    expect(selectPosts(state)).toEqual([])
+    expect(selectPageOne(state)).toEqual([])
+    expect(selectPageTwo(state)).toEqual([{id: 1, text: 'hi!'}])
   })
 
   it('merges similar elements', () => {
@@ -80,7 +80,7 @@ describe('entity-action-fragment', () => {
     }
     store.dispatch(tweetsA)
     store.dispatch(tweetsB)
-    expect(store.getState().toJS()).toEqual({
+    expect(store.getState()).toEqual({
       Tweet: {
         groups: {
           default: [[1]]
@@ -99,13 +99,14 @@ describe('entity-action-fragment', () => {
     }
     const selectPosts = entity.makeSelect('Post')
     store.dispatch(posts)
-    expect(store.getState().toJS()).toEqual({
+    expect(store.getState()).toEqual({
       Post: {
+        elements: [],
         groups: {
           default: [[]]
         }
       }
     })
-    expect(selectPosts(store.getState()).toJS()).toEqual([])
+    expect(selectPosts(store.getState())).toEqual([])
   })
 })

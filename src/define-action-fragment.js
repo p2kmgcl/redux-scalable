@@ -35,7 +35,9 @@ export default ({ type, initialState, makeFragment, reducer, selector }) => {
 
   const setKeyPath = (newKeyPath) => {
     keyPath = newKeyPath instanceof Array && newKeyPath.length ? [].concat(newKeyPath) : []
-    selectState = (state) => state.getIn(keyPath)
+    selectState = (state) => keyPath.reduce((subState, keyPathItem) =>
+      (subState && typeof subState === 'object') ? subState[keyPathItem] : undefined
+    , state)
   }
 
   setKeyPath()

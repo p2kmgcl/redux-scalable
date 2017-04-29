@@ -1,7 +1,6 @@
 /* global describe, beforeEach, it, expect */
 
-import { combineReducers } from 'redux-immutable'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import promiseMiddleware, {
   loadingReducer,
   setLoadingStateKeyPath,
@@ -43,7 +42,7 @@ describe('promise-middleware', () => {
   describe('promiseMiddleware()', () => {
     it('ignores non-promise actions', () => {
       store.dispatch({type: 'nice'})
-      expect(store.getState().toJS().dummy).toEqual({type: 'nice'})
+      expect(store.getState().dummy).toEqual({type: 'nice'})
     })
 
     it('sets payload and promise status description', (done) => {
@@ -59,8 +58,8 @@ describe('promise-middleware', () => {
         payload: 'payload'
       }
       store.dispatch(action)
-      expect(store.getState().toJS().dummy).toEqual(loadingExpected)
-      wait(() => expect(store.getState().toJS().dummy).toEqual(successExpected), done)
+      expect(store.getState().dummy).toEqual(loadingExpected)
+      wait(() => expect(store.getState().dummy).toEqual(successExpected), done)
     })
 
     it('allows rejecting promises', (done) => {
@@ -76,8 +75,8 @@ describe('promise-middleware', () => {
         payload: 'payload'
       }
       store.dispatch(action)
-      expect(store.getState().toJS().dummy).toEqual(loadingExpected)
-      wait(() => expect(store.getState().toJS().dummy).toEqual(errorExpected), done)
+      expect(store.getState().dummy).toEqual(loadingExpected)
+      wait(() => expect(store.getState().dummy).toEqual(errorExpected), done)
     })
 
     it('processes error objects and stores their information', (done) => {
@@ -100,8 +99,8 @@ describe('promise-middleware', () => {
         }
       }
       store.dispatch(action)
-      expect(store.getState().toJS().dummy).toEqual(loadingExpected)
-      wait(() => expect(store.getState().toJS().dummy).toEqual(errorExpected), done)
+      expect(store.getState().dummy).toEqual(loadingExpected)
+      wait(() => expect(store.getState().dummy).toEqual(errorExpected), done)
     })
   })
 
@@ -111,7 +110,7 @@ describe('promise-middleware', () => {
       const failAction = {type: 'failAction', payload: rejectWithValue('payload')}
       store.dispatch(okAction)
       store.dispatch(failAction)
-      expect(store.getState().toJS().loading).toEqual(['okAction', 'failAction'])
+      expect(store.getState().loading).toEqual(['okAction', 'failAction'])
     })
 
     it('clears finished promises', (done) => {
@@ -119,8 +118,8 @@ describe('promise-middleware', () => {
       const actionB = {type: 'actionB', payload: rejectWithValue('payload', delayUnit * 10)}
       store.dispatch(actionA)
       store.dispatch(actionB)
-      expect(store.getState().toJS().loading).toEqual(['actionA', 'actionB'])
-      wait(() => expect(store.getState().toJS().loading).toEqual(['actionB']), done)
+      expect(store.getState().loading).toEqual(['actionA', 'actionB'])
+      wait(() => expect(store.getState().loading).toEqual(['actionB']), done)
     })
   })
 

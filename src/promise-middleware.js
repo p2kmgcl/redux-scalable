@@ -1,5 +1,3 @@
-import { fromJS } from 'immutable'
-
 const PROMISE_LOADING_STATUS = 'redux-scalable/promise-middleware/PROMISE_LOADING_STATUS'
 const PROMISE_SUCCESS_STATUS = 'redux-scalable/promise-middleware/PROMISE_SUCCESS_STATUS'
 const PROMISE_ERROR_STATUS = 'redux-scalable/promise-middleware/PROMISE_ERROR_STATUS'
@@ -49,16 +47,14 @@ const promiseMiddleware = (store) => (next) => (action) => {
   return next(action)
 }
 
-const loadingReducer = (state = fromJS([]), action) => {
-  let nextState = state
+const loadingReducer = (state = [], action) => {
+  let nextState = state.splice(0)
   if (action && action.meta && action.meta.promiseStatus) {
-    switch (action.meta.promiseStatus) {
-      case PROMISE_LOADING_STATUS:
-        nextState = nextState.push(action.type)
-        break
-      default:
-        nextState = nextState.remove(nextState.indexOf(action.type))
-        break
+    if (action.meta.promiseStatus === PROMISE_LOADING_STATUS) {
+      nextState.push(action.type)
+    } else {
+      const index = nextState.indexOf(action.type)
+      if (index > -1) nextState = nextState.splice(index + 1, 1)
     }
   }
   return nextState
@@ -66,15 +62,17 @@ const loadingReducer = (state = fromJS([]), action) => {
 
 const setLoadingStateKeyPath = (keyPath) => {
   if (keyPath instanceof Array && keyPath.length) {
-    loadingStateKeyPath = [].concat(keyPath)
+    loadingStateKeyPath = keyPath.splice(0)
   } else {
     loadingStateKeyPath = []
   }
 }
 
 const makeSelectLoading = (actionType) => (state) => {
-  let subState = state.getIn(loadingStateKeyPath)
-  if (typeof subState.indexOf === 'function') {
+  let subState = loadingStateKeyPath.reduce((subState, keyPathItem) =>
+      (subState && typeof subState === 'object') ? subState[keyPathItem] : undefined
+  , state)
+  if (subState && typeof subState.indexOf === 'function') {
     return subState.indexOf(actionType) !== -1
   }
   return false

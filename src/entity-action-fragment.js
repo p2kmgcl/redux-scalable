@@ -1,50 +1,45 @@
-import { fromJS, Map as ImmutableMap, List as ImmutableList } from 'immutable'
 import defineActionFragment from './define-action-fragment'
 
 export default defineActionFragment({
   type: 'entity',
-  initialState: new ImmutableMap(),
+  initialState: {},
 
   makeFragment: (name, elements, page = 0, group = 'default') =>
     ({ type: 'entity', name, elements, page, group }),
 
   reducer: (state, action, { name, elements, page, group }) => {
-    const newElements = elements
-    const groupIndex = page
-    let nextState = state
-    if (newElements instanceof Array) {
-      let groupContent = nextState.getIn([name, 'groups', group], new ImmutableList())
-      groupContent = groupContent.set(groupIndex, fromJS(newElements.map((element) => element.id)))
-      let elements = nextState.getIn([name, 'elements'], new ImmutableList())
-      newElements.forEach((element) => {
-        let immutableElement = fromJS(JSON.parse(JSON.stringify(element)))
-        const elementIndex = elements.findIndex(
-          (potentialElement) => potentialElement.get('id') === immutableElement.get('id')
+    let nextState = Object.assign({}, state)
+    nextState[name] = nextState[name] || { groups: { [group]: [] }, elements: [] }
+    nextState[name].groups[group] = nextState[name].groups[group] || []
+    if (elements instanceof Array && elements.length > 0) {
+      const newElementsIds = []
+      elements.forEach((element) => {
+        let newCleanElement = JSON.parse(JSON.stringify(element))
+        const existingIndex = nextState[name].elements.findIndex(
+          (existingElement) => existingElement.id === newCleanElement.id
         )
-        if (elementIndex > -1) {
-          const existingElement = elements.get(elementIndex)
-          immutableElement = existingElement.merge(immutableElement)
-          elements = elements.set(elementIndex, immutableElement)
+        if (existingIndex > -1) {
+          newCleanElement = Object.assign(
+            {},
+            nextState[name].elements[existingIndex],
+            newCleanElement
+          )
+          nextState[name].elements[existingIndex] = newCleanElement
         } else {
-          elements = elements.push(immutableElement)
+          nextState[name].elements.push(newCleanElement)
         }
+        newElementsIds.push(newCleanElement.id)
       })
-      nextState = nextState
-        .setIn([name, 'groups', group], groupContent)
-        .setIn([name, 'elements'], elements)
+      nextState[name].groups[group][page] = newElementsIds
     } else {
-      let groupContent = nextState.getIn([name, 'groups', group], new ImmutableList())
-      groupContent = groupContent.set(groupIndex, new ImmutableList())
-      nextState = nextState.setIn([name, 'groups', group], groupContent)
+      nextState[name].groups[group][page] = []
     }
     return nextState
   },
 
   selector: (state, name, page = 0, group = 'default') => {
-    const ids =
-      state.getIn([name, 'groups', group, page], new ImmutableList()) ||
-      new ImmutableList()
-    const elements = state.getIn([name, 'elements'], new ImmutableList())
-    return elements.filter((element) => ids.contains(element.get('id')))
+    if (!state[name]) return []
+    const ids = state[name].groups[group][page] || []
+    return state[name].elements.filter((element) => ids.indexOf(element.id) !== -1)
   }
 })

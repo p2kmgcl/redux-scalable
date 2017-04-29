@@ -20,9 +20,7 @@ module.exports = {
   },
   externals: [
     'reselect',
-    'immutable',
-    'redux',
-    'redux-immutable'
+    'redux'
   ],
   devtool: 'source-map'
 }

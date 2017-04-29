@@ -22,7 +22,7 @@ __Warning! This library is on alpha state. Needed for 1.0.0__:
 - [x] Test library usage in production
 - [ ] Complete _defining new fragment creators_ documentation
 - [x] Complete index.d.ts process
-- [ ] Remove Immutable and Redux-Immutable
+- [x] Remove Immutable and Redux-Immutable
 - [x] Deprecate usage of `Symbol` and generate unique strings,
       it seems that redux does not like them
 - [x] If rejected promises receive an `Error` object it must be parsed and transformed into
@@ -52,9 +52,6 @@ files can be read and processed by many editors.
 Redux-environment libraries, so they are added as peer dependencies:
 
 - [Redux](http://redux.js.org/) (awesome, I know)
-- [Immutable](https://facebook.github.io/immutable-js/) for efficient state managing
-- [Redux-Immutable](https://github.com/gajus/redux-immutable) for managing the redux state as an
-  immutable map
 - [Reselect](https://github.com/reactjs/reselect) for cache state observation
 
 > If you find this approach incorrect and/or know how to improve this library, feel free to open an
@@ -72,17 +69,13 @@ all the files maybe confusing.
 npm install --save \
   redux-scalable \
   redux@^3.6.0 \
-  reselect@^3.0.0 \
-  immutable@^3.8.1 \
-  redux-immutable@^3.6.0
+  reselect@^3.0.0
 ```
 
 ### Inject middlewares and reducers when creating your store
 
 ```js
-import { createStore, applyMiddleware } from 'redux'
-import { combineReducers } from 'redux-immutable'
-import { fromJS } from 'immutable'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import {
   functionMiddleware,
   promiseMiddleware,
@@ -310,8 +303,7 @@ const fragmentCreator = {
 
 The __Inject Action Fragment__ (aka. _The Magnificent Action Fragment Which Probably Is Included And
 Recreated On Every Project But Not Anymore_) takes a value and stores it in the specified `keyPath`.
-It's simple, but it also has some cool merging objects functionality. Almost everything is immutable
-behaviour, but that is because immutable is so cool too. Usage:
+It's simple, but it also has some cool merging objects functionality. Usage:
 
 ```js
 const setSecretValue = makeActionCreator('setSecretValue', {}, (value) => ({

@@ -1,8 +1,6 @@
 /* global describe, it, beforeEach, expect */
 
-import { fromJS } from 'immutable'
-import { combineReducers } from 'redux-immutable'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import defineActionFragment from '../define-action-fragment'
 
 describe('define-action-fragment', () => {
@@ -13,9 +11,9 @@ describe('define-action-fragment', () => {
     beforeEach(() => {
       fragment = defineActionFragment({
         type: 'sample',
-        initialState: fromJS([]),
+        initialState: [],
         reducer: (state, action, fragment) => state.concat([fragment.value]),
-        selector: (fragmentState, index) => fragmentState.get(index),
+        selector: (fragmentState, index) => fragmentState[index],
         makeFragment: (value) => ({ type: 'sample', value })
       })
       fragment.setKeyPath(['sample'])
@@ -41,7 +39,7 @@ describe('define-action-fragment', () => {
         }
       }
       store.dispatch(action)
-      expect(store.getState()).toEqual(fromJS({ sample: [1, 13] }))
+      expect(store.getState()).toEqual({ sample: [1, 13] })
     })
 
     it('applies the given selector', () => {

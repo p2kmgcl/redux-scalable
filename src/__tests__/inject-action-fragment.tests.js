@@ -1,7 +1,6 @@
 /* global describe, it, expect, beforeEach */
 
-import { combineReducers } from 'redux-immutable'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import inject from '../inject-action-fragment'
 
 describe('inject-action-fragment', () => {
@@ -16,7 +15,7 @@ describe('inject-action-fragment', () => {
   })
 
   it('inject.initialState', () => {
-    expect(inject.initialState.toJS()).toEqual({})
+    expect(inject.initialState).toEqual({})
   })
 
   it('sets values to the given keyPath', () => {
@@ -47,7 +46,7 @@ describe('inject-action-fragment', () => {
       }
     }
     store.dispatch(action)
-    expect(store.getState().toJS()).toEqual({ custom: { value: 3 } })
+    expect(store.getState()).toEqual({ custom: { value: 3 } })
   })
 
   it('gets the given default value', () => {

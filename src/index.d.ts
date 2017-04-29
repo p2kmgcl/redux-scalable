@@ -1,4 +1,3 @@
-import {Map as ImmutableMap, List as ImmutableList} from 'immutable'
 import {Selector} from 'reselect'
 import {Action, ActionCreator, Middleware} from 'redux'
 
@@ -99,9 +98,9 @@ interface promiseMiddleware extends Middleware {
  * - If the action dispatched has no `meta` property, has no `meta.promiseStatus` property, or
  *   it's `meta.promiseStatus` property has a different value, the action is ignored.
  *
- * @param {ImmutableList} [state=new ImmutableList] List of actions being loaded.
+ * @param {[]} [state=[]] List of actions being loaded.
  * @param {object} action Action being processed as described before.
- * @return {ImmutableList}
+ * @return {[]}
  */
 function loadingReducer(state: any, action: Action): any
 
@@ -172,7 +171,7 @@ interface InjectActionFragment extends ActionFragment {
  * of this concrete interface).
  *
  * @prop {string} inject Constant representing the fragment type
- * @prop {ImmutableMap} initialState Initial state of the redux store
+ * @prop {{}} initialState Initial state of the redux store
  * @prop {function} makeFragment Function for generating new fragments
  * @prop {function} reducer Reducer to be injected to the store
  * @prop {function} makeSelect Function that produces selectors
@@ -181,7 +180,7 @@ interface InjectActionFragment extends ActionFragment {
  */
 interface inject extends ActionFragmentCreator {
   type: 'inject',
-  initialState: ImmutableMap,
+  initialState: {},
   makeFragment: (keyPath: string[], value: any) => InjectActionFragment,
   reducer: (state: any, action: ActionWithFragments, fragment: InjectActionFragment) => any,
   makeSelect: (keyPath: string[]|Selector<any, string[]>, defaultValue: any) => Selector<any, any>
@@ -226,7 +225,7 @@ interface EntityActionFragment extends ActionFragment {
  * of this concrete interface).
  *
  * @prop {string} inject Constant representing the fragment type
- * @prop {ImmutableMap} initialState Initial state of the redux store
+ * @prop {{}} initialState Initial state of the redux store
  * @prop {function} makeFragment Function for generating new fragments
  * @prop {function} reducer Reducer to be injected to the store
  * @prop {function} makeSelect Function that produces selectors
@@ -235,7 +234,7 @@ interface EntityActionFragment extends ActionFragment {
  */
 interface entity extends ActionFragmentCreator {
   type: 'entity',
-  initialState: ImmutableMap,
+  initialState: {},
 
   makeFragment: (
     name: string,
