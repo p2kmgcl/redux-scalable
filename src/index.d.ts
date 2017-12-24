@@ -25,7 +25,7 @@ import {Action, ActionCreator, Middleware} from 'redux'
  *
  * @return {ActionCreator} The generated action creator with the described functionality.
  */
-function makeActionCreator(
+declare function makeActionCreator(
   type: string,
   meta?: object,
   payload?: object|Promise<object>|(() => object)
@@ -102,7 +102,7 @@ interface promiseMiddleware extends Middleware {
  * @param {object} action Action being processed as described before.
  * @return {[]}
  */
-function loadingReducer(state: any, action: Action): any
+declare function loadingReducer(state: any, action: Action): any
 
 /**
  * @type function
@@ -111,7 +111,7 @@ function loadingReducer(state: any, action: Action): any
  *
  * @param {string|null} [keyPath=null]
  */
-function setLoadingStateKeyPath(keyPath: string|null): void
+declare function setLoadingStateKeyPath(keyPath: string|null): void
 
 /**
  * @type function
@@ -124,7 +124,7 @@ function setLoadingStateKeyPath(keyPath: string|null): void
  * @return {Selector<*, boolean>} A selector that when executed, will return true if an
  *   action with `actionType` is being loaded, or false otherwise.
  */
-function makeSelectLoading(actionType: string): Selector<any, boolean>
+declare function makeSelectLoading(actionType: string): Selector<any, boolean>
 
 /**
  * @type String
@@ -325,7 +325,7 @@ interface ActionFragmentCreatorDefinition {
  *  and ActionFragmentCreator documentation for more information about it's usage.
  * @return {ActionFragmentCreator}
  */
-function defineActionFragment(
+declare function defineActionFragment(
   actionFragmentCreatorDefinition: ActionFragmentCreatorDefinition
 ): ActionFragmentCreator
 
