@@ -93,9 +93,10 @@ describe('promise-middleware', () => {
         payload: {
           name: 'TypeError',
           message: 'You are not my type, baby',
-          stack: error.stack // Do not expect me to write the full stack here :3
-                             // Moreover, this property is not standard, so it may be
-                             // undefined or an empty string, or whatever...
+          // Do not expect me to write the full stack here :3
+          // Moreover, this property is not standard, so it may be
+          // undefined or an empty string, or whatever...
+          stack: error.stack
         }
       }
       store.dispatch(action)

@@ -76,11 +76,13 @@ const setLoadingStateKeyPath = (keyPath) => {
 
 const makeSelectLoading = (actionType) => (state) => {
   let subState = loadingStateKeyPath.reduce((subState, keyPathItem) =>
-      (subState && typeof subState === 'object') ? subState[keyPathItem] : undefined
-  , state)
+    (subState && typeof subState === 'object') ? subState[keyPathItem] : undefined
+    , state)
+
   if (subState && typeof subState.indexOf === 'function') {
     return subState.indexOf(actionType) !== -1
   }
+
   return false
 }
 

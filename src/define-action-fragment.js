@@ -48,7 +48,7 @@ export default ({ type, initialState, makeFragment, reducer, selector }) => {
 
   const selectState = (state) => keyPath.reduce((subState, keyPathItem) =>
     (subState && typeof subState === 'object') ? subState[keyPathItem] : undefined
-  , state)
+    , state)
 
   setKeyPath()
 
