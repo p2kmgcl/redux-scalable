@@ -27,9 +27,9 @@ import {Action, ActionCreator, Middleware} from 'redux'
  */
 function makeActionCreator(
   type: string,
-  meta: object = {},
-  payload: object|Promise|Function = {}
-): ActionCreator
+  meta?: object,
+  payload?: object|Promise<object>|(() => object)
+): ActionCreator<Action>
 
 /**
  * @type function
@@ -239,8 +239,8 @@ interface entity extends ActionFragmentCreator {
   makeFragment: (
     name: string,
     elements: EntityElement[],
-    page: number = 0,
-    group: string = 'default'
+    page?: number,
+    group?: string
   ) => EntityActionFragment,
 
   reducer: (
