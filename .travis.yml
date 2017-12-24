@@ -1,10 +1,11 @@
 language: node_js
+cache:
+  directories:
+    - ~/.npm
 notifications:
   email:
     on_failure: change
 node_js:
-  - 8
+  - '8'
 after_success:
-  - npm run coveralls
-  - npm run build
   - npm run semantic-release
